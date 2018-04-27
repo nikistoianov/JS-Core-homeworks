@@ -7,24 +7,42 @@
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<!--<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">-->
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-<!--===============================================================================================-->
-	<!--<link rel="stylesheet" type="text/css" href="css/util.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--&lt;!&ndash;<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">&ndash;&gt;-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<link rel="stylesheet" href="css/styles.css">-->
 </head>
 <body>
-	
+
 	<div class="limiter">
+
+		<!--<div id='cssmenu'>-->
+			<!--<div>-->
+				<!--<ul>-->
+					<!--<li class='active'><a href='#'>Групи</a></li>-->
+					<!--<li><a href='#'>Първи кръг</a></li>-->
+					<!--<li><a href='#'>Втори кръг</a></li>-->
+					<!--<li><a href='#'>Финален кръг</a></li>-->
+				<!--</ul>-->
+			<!--</div>-->
+
+			<!--<ul>-->
+				<!--<li><a href='#'>Вход</a></li>-->
+			<!--</ul>-->
+		<!--</div>-->
+
 		<div class="container-table100">
+
 			<div class="wrap-table100">
 
 				<div class="table100 ver6 m-b-110">
@@ -32,8 +50,8 @@
 
 						<thead>
 							<tr class="row100 head">
-								<th class="column100 column1" data-column="column1">дата</th>
-								<th class="column100 column2" data-column="column1"></th>
+								<th class="column100 date" data-column="column1">дата</th>
+								<th class="column100 game" data-column="column1"></th>
 								<th class="column100" data-column="column1">резултат</th>
 								<th class="column100" data-column="column2">Ники</th>
 								<th class="column100" data-column="column3">Надя</th>
@@ -44,30 +62,53 @@
 
 						<tbody>
 							<tr class="row100">
-								<td class="column100 column1" data-column="column1">17.06 15:40</td>
-								<td class="column100 column2" data-column="column1">Бразилия : Испания</td>
-								<td class="column100 column3" data-column="column2">1 : 1</td>
-								<td class="column100" data-column="column2">1 : 1</td>
-								<td class="column100 totalmatch" data-column="column3">2 : 0</td>
-								<td class="column100 match" data-column="column4">5 : 3</td>
-								<td class="column100 nomatch" data-column="column5">0 : 0</td>
+								<td class="column100 date" data-column="column1">17.06 15:40</td>
+								<td class="column100 game" data-column="column1">Бразилия : Испания</td>
+								<td class="column100 result" data-column="column2">1 : 1</td>
+								<td class="column100 totalmatch" data-column="column2">1 : 1</td>
+								<td class="column100 nomatch" data-column="column3">2 : 0</td>
+								<td class="column100 match" data-column="column4">3 : 3</td>
+								<td class="column100 match" data-column="column5">0 : 0</td>
 							</tr>
 
-							<!--<tr class="row100">-->
-								<!--<td class="column100 column1" data-column="column1">Камерун : Хърватия</td>-->
-								<!--<td class="column100 column2" data-column="column2">няма</td>-->
-								<!--<td class="column100 column3" data-column="column3">2 : 0</td>-->
-								<!--<td class="column100 column4" data-column="column4">няма</td>-->
-								<!--<td class="column100 column5" data-column="column5">няма</td>-->
-							<!--</tr>-->
+							<tr class="row200">
+								<td class="column100" colspan="7">Полуфинали</td>
+							</tr>
 
-							<!--<tr class="row100">-->
-								<!--<td class="column100 column1" data-column="column1">Испания : Чили</td>-->
-								<!--<td class="column100 column2" data-column="column2">0 : 0</td>-->
-								<!--<td class="column100 column3" data-column="column3"><button>няма</button></td>-->
-								<!--<td class="column100 column4" data-column="column4">няма</td>-->
-								<!--<td class="column100 column5" data-column="column5">&#45;&#45;</td>-->
-							<!--</tr>-->
+							<tr class="row100">
+								<td class="column100 date" data-column="column1">17.06 15:40</td>
+								<td class="column100 game" data-column="column1">Камерун : Хърватия</td>
+								<td class="column100 result" data-column="column2">няма</td>
+								<td class="column100" data-column="column3">2 : 0</td>
+								<td class="column100" data-column="column4"><button id="1">няма</button></td>
+								<td class="column100" data-column="column5">няма</td>
+							</tr>
+
+							<tr class="row100 footer">
+								<th class="column100" colspan="3">точки за трети кръг</th>
+								<th class="column100 match">75</th>
+								<th class="column100 match">75</th>
+								<th class="column100 match">75</th>
+								<th class="column100 match">75</th>
+							</tr>
+
+							<tr class="row100 footer">
+								<th class="column100" colspan="3">бонус точки</th>
+								<th class="column100 match"></th>
+								<th class="column100 match"></th>
+								<th class="column100 match"></th>
+								<th class="column100 match"></th>
+							</tr>
+
+							<tr class="row100 footer">
+								<th class="column100 totalmatch" colspan="3">общо точки</th>
+								<!--<th class="column100 totalmatch">общо точки</th>-->
+								<!--<th></th>-->
+								<th class="column100 totalmatch">125</th>
+								<th class="column100 totalmatch">85</th>
+								<th class="column100 totalmatch">46</th>
+								<th class="column100 totalmatch"></th>
+							</tr>
 
 						</tbody>
 					</table>
@@ -81,14 +122,14 @@
 	
 
 <!--===============================================================================================-->	
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+	<!--<script src="vendor/jquery/jquery-3.2.1.min.js"></script>-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<script src="vendor/bootstrap/js/popper.js"></script>-->
+	<!--<script src="vendor/bootstrap/js/bootstrap.min.js"></script>-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<script src="vendor/select2/select2.min.js"></script>-->
+<!--&lt;!&ndash;===============================================================================================&ndash;&gt;-->
+	<!--<script src="js/main.js"></script>-->
 
 </body>
 </html>

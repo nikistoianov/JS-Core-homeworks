@@ -132,11 +132,11 @@ th, td {
   padding-left: 10px;
 }
 
-.column100.column1 {
+.column100.date {
   width: 65px;
 }
 
-.column100.column2 {
+.column100.game {
   width: 265px;
 }
 
@@ -146,267 +146,38 @@ th, td {
   text-align: center;
 }
 
+.row100.footer th {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: #94ffc4;
+    background-color: rgba(255,255,255,0.1);
+    /*font-size: 15px;*/
+    text-transform: none;
+}
+
 .row100 td {
   padding-top: 18px;
   padding-bottom: 14px;
   text-align: center;
 }
 
-
-/*==================================================================
-[ Ver1 ]*/
-.table100.ver1 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
+.row200 td {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    text-align: center;
+    background-color: rgba(255,255,255,0.2);
+    font-size: 16px;
 }
 
-.table100.ver1 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
+th {
+    font-family: Montserrat-Medium;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.4;
+    text-transform: uppercase;
 
-  background-color: #36304a;
-}
-
-.table100.ver1 .row100:hover {
-  background-color: #f2f2f2;
-}
-
-.table100.ver1 .hov-column-ver1 {
-  background-color: #f2f2f2;
-}
-
-.table100.ver1 .hov-column-head-ver1 {
-  background-color: #484848 !important;
-}
-
-.table100.ver1 .row100 td:hover {
-  background-color: #6c7ae0;
-  color: #fff;
-}
-
-/*==================================================================
-[ Ver2 ]*/
-.table100.ver2 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
-}
-
-.table100.ver2 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
-
-  background-color: #333333;
-}
-
-.table100.ver2 .row100:hover td {
-  background-color: #83d160;
-  color: #fff;
-}
-
-.table100.ver2 .hov-column-ver2 {
-  background-color: #83d160;
-  color: #fff;
-}
-
-.table100.ver2 .hov-column-head-ver2 {
-  background-color: #484848 !important;
-}
-
-.table100.ver2 .row100 td:hover {
-  background-color: #57b846;
-  color: #fff;
-}
-
-/*==================================================================
-[ Ver2 ]*/
-.table100.ver2 tbody tr:nth-child(even) {
-  background-color: #eaf8e6;
-}
-
-.table100.ver2 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
-}
-
-.table100.ver2 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
-
-  background-color: #333333;
-}
-
-.table100.ver2 .row100:hover td {
-  background-color: #83d160;
-  color: #fff;
-}
-
-.table100.ver2 .hov-column-ver2 {
-  background-color: #83d160;
-  color: #fff;
-}
-
-.table100.ver2 .hov-column-head-ver2 {
-  background-color: #484848 !important;
-}
-
-.table100.ver2 .row100 td:hover {
-  background-color: #57b846;
-  color: #fff;
-}
-
-/*==================================================================
-[ Ver3 ]*/
-.table100.ver3 tbody tr {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.table100.ver3 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
-}
-
-.table100.ver3 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
-
-  background-color: #6c7ae0;
-}
-
-.table100.ver3 .row100:hover td {
-  background-color: #fcebf5;
-}
-
-.table100.ver3 .hov-column-ver3 {
-  background-color: #fcebf5;
-}
-
-.table100.ver3 .hov-column-head-ver3 {
-  background-color: #7b88e3 !important;
-}
-
-.table100.ver3 .row100 td:hover {
-  background-color: #e03e9c;
-  color: #fff;
-}
-
-/*==================================================================
-[ Ver4 ]*/
-
-.table100.ver4 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
-}
-
-.table100.ver4 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
-
-  background-color: #fa4251;
-}
-
-.table100.ver4 .row100:hover td {
-  color: #fa4251;
-}
-
-.table100.ver4 .hov-column-ver4 {
-  background-color: #ffebed;
-}
-
-.table100.ver4 .hov-column-head-ver4 {
-  background-color: #f95462 !important;
-}
-
-.table100.ver4 .row100 td:hover {
-  background-color: #ffebed;
-  color: #fa4251;
-}
-
-/*==================================================================
-[ Ver5 ]*/
-.table100.ver5 tbody tr:nth-child(even) {
-  background-color: #e9faff;
-}
-
-.table100.ver5 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
-  position: relative;
-}
-
-.table100.ver5 th {
-  font-family: Montserrat-Medium;
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
-
-  background-color: #002933;
-}
-
-.table100.ver5 .row100:hover td {
-  color: #fe3e64;
-}
-
-.table100.ver5 .hov-column-ver5 {color: #fe3e64;}
-.table100.ver5 .hov-column-ver5::before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  border-left: 1px solid #f2f2f2;
-  border-right: 1px solid #f2f2f2;
-}
-
-.table100.ver5 .hov-column-head-ver5 {
-  background-color: #1a3f48 !important;
-  color: #fe3e64;
-}
-
-.table100.ver5 .row100 td:hover {
-  color: #fe3e64;
-}
-
-.table100.ver5 .row100 td:hover:before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  border: 1px solid #fe3e64;
+    background-color: rgba(255,255,255,0.32);
 }
 
 /*==================================================================
@@ -427,26 +198,19 @@ th, td {
   text-align: center;
 }
 
-/*.table100.ver6 td {*/
-  /*font-family: Montserrat-Regular;*/
-  /*font-size: 14px;*/
-  /*color: #fff;*/
-  /*line-height: 1.4;*/
-/*}*/
-
 .table100.ver6 button {
   color: #fff;
 }
 
-.table100.ver6 th {
-  font-family: Montserrat-Medium;
-  font-size: 14px;
-  color: #fff;
-  line-height: 1.4;
-  text-transform: uppercase;
+/*.table100.ver6 th {*/
+  /*font-family: Montserrat-Medium;*/
+  /*font-size: 14px;*/
+  /*color: #fff;*/
+  /*line-height: 1.4;*/
+  /*text-transform: uppercase;*/
 
-  background-color: rgba(255,255,255,0.32);
-}
+  /*background-color: rgba(255,255,255,0.32);*/
+/*}*/
 
 .table100.ver6 .row100:hover td {
   background-color: rgba(255,255,255,0.1);
@@ -461,7 +225,7 @@ th, td {
   background-color: rgba(255,255,255,0.2);
 }
 
-.table100.ver6 .column3 {
+.table100.ver6 .result {
   background-color: rgba(255,255,255,0.15);
 }
 
@@ -471,7 +235,7 @@ th, td {
 }
 
 .match {
-  color: #99ff99;
+  color: #6be1ff;
   font-size: 18px;
 }
 
