@@ -1,0 +1,104 @@
+<!--<div class="container body-content">-->
+    <!--<div class="row">-->
+        <!--{{#each articles}}-->
+            <!--<div class="col-md-6">-->
+                <!--<article>-->
+                    <!--<header>-->
+                        <!--<h2>{{this.title}}</h2>-->
+                    <!--</header>-->
+
+                    <!--<p>{{this.content}}-->
+                    <!--</p>-->
+
+                    <!--<small class="author">-->
+                        <!--{{this.author.fullName}}-->
+                    <!--</small>-->
+
+                    <!--<footer>-->
+                        <!--<div class="pull-right">-->
+                            <!--<a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more &raquo;</a>-->
+                        <!--</div>-->
+                    <!--</footer>-->
+                <!--</article>-->
+            <!--</div>-->
+        <!--{{/each}}-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="limiter">-->
+
+<div class="container-table100">
+
+    <div class="wrap-table100">
+
+        <div class="table100 ver6 m-b-110">
+            <table data-vertable="ver2">
+
+                <thead>
+                <tr class="row100 head">
+                    <th class="column100 date" data-column="column1">дата</th>
+                    <th class="column100 game" data-column="column1"></th>
+                    <th class="column100" data-column="column1">резултат</th>
+                    {{#each users}}
+                        <th class="column100" data-column="column2">{{this.name}}</th>
+                    {{/each}}
+                </tr>
+                </thead>
+
+                <tbody>
+                {{#each matches}}
+                    <tr class="row100">
+                        <td class="column100 date" data-column="column1">{{this.date}}</td>
+                        <td class="column100 game" data-column="column1">{{this.team1}} : {{this.team2}}</td>
+                        <td class="column100 result" data-column="column2">{{this.result}}</td>
+                        {{#each this.bets}}
+                            {{#if this.current}}
+                                <td class="column100 totalmatch" data-column="column2"><a href="/{{this.href}}" id="1" class="btn">{{this.result}}</a></td>
+                            {{else}}
+                                <td class="column100" data-column="column2">{{this.result}}</td>
+                            {{/if}}
+
+                        {{/each}}
+                        <!--<td class="column100 totalmatch" data-column="column2">1 : 1</td>-->
+                        <!--<td class="column100 nomatch" data-column="column2">3 : 1</td>-->
+                    </tr>
+                {{/each}}
+
+                <tr class="row200">
+                    <td class="column100" colspan="7">Полуфинали</td>
+                </tr>
+
+                <tr class="row100">
+                    <td class="column100 date" data-column="column1">17.06 15:40</td>
+                    <td class="column100 game" data-column="column1">Камерун : Хърватия</td>
+                    <td class="column100 result" data-column="column2">1 : 1</td>
+                    <td class="column100" data-column="column3">2 : 0</td>
+                    <td class="column100" data-column="column4"><button id="1">няма</button></td>
+                </tr>
+
+                <tr class="row100 footer">
+                    <th class="column100" colspan="3">точки за трети кръг</th>
+                    <th class="column100 match">75</th>
+                    <th class="column100 match">31</th>
+                </tr>
+
+                <tr class="row100 footer">
+                    <th class="column100" colspan="3">бонус точки</th>
+                    <th class="column100 match"></th>
+                    <th class="column100 match"></th>
+                </tr>
+
+                <tr class="row100 footer">
+                    <th class="column100 totalmatch" colspan="3">общо точки</th>
+                    <!--<th class="column100 totalmatch">общо точки</th>-->
+                    <!--<th></th>-->
+                    <th class="column100 totalmatch">125</th>
+                    <th class="column100 totalmatch">85</th>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</div>
