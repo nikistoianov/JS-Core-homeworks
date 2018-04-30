@@ -24,5 +24,13 @@ module.exports = (app) => {
 
     app.get('/newbet/:id', gameController.newbetGet);
     app.post('/game/newbet/:id', gameController.newbetPost);
+
+    app.get('/game/matchresult/:id', gameController.matchResultGet);
+    app.post('/game/matchresult/:id', gameController.matchResultPost);
+
+    app.get('/game/matchedit/:id', gameController.matchEditGet);
+    app.post('/game/matchedit/:id', gameController.matchEditPost);
+
+    app.get('/game/matchdelete/:id', gameController.matchDeleteGet);
 };
 

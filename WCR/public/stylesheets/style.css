@@ -3029,6 +3029,12 @@ select[multiple].input-lg {
     font-size: 13px;
   }
 }
+
+.btn.resultbtn {
+  border: 0px;
+  padding: 0px 0px;
+}
+
 .btn {
   display: inline-block;
   margin-bottom: 0;

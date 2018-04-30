@@ -7,7 +7,8 @@ let userSchema = mongoose.Schema(
         passwordHash: {type: String, required: true},
         name: {type: String, required: true},
         bets: {type: [mongoose.Schema.Types.ObjectId], default: []},
-        salt: {type: String, required: true}
+        salt: {type: String, required: true},
+        admin: {type: Boolean, default: false}
     }
 );
 

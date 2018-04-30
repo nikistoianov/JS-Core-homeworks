@@ -7,13 +7,13 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleTitle">{{bet.match.team1}}</label>
                     <div class="col-sm-4 ">
-                        <input type="number" class="form-control" id="articleTitle" placeholder="прогноза" name="goal1" value="{{bet.goal1}}" required >
+                        <input type="number" class="form-control" placeholder="прогноза" name="goal1" value="{{bet.goal1}}" required >
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleTitle">{{bet.match.team2}}</label>
                     <div class="col-sm-4 ">
-                        <input type="number" class="form-control" id="articleTitle" placeholder="прогноза" name="goal2" value="{{bet.goal2}}" required >
+                        <input type="number" class="form-control" placeholder="прогноза" name="goal2" value="{{bet.goal2}}" required >
                     </div>
                 </div>
                 <!--<div class="form-group">-->
@@ -25,9 +25,8 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
-
-                        <button type="reset" class="btn btn-default">Отказ</button>
-
+                        <!--<button type="reset" class="btn btn-default">Отказ</button>-->
+                        <a class="btn btn-default" href="{{href}}">Отказ</a>
                         <button type="submit" class="btn btn-primary">Добави</button>
                     </div>
                 </div>

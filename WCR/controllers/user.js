@@ -29,7 +29,8 @@ module.exports = {
                     userName: registerArgs.userName,
                     passwordHash: passwordHash,
                     name: registerArgs.name,
-                    salt: salt
+                    salt: salt,
+                    admin: false
                 };
 
                 User.create(userObject).then(user => {
