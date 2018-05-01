@@ -13,14 +13,19 @@
         <div class="navbar navbar-default navbar-fixed-top text-uppercase">
             <div class="container">
                 <div class="navbar-header">
+                    <a title="2018 FIFA World Cup Russia™">
+                        <img src="https://fsprdcdnpublic.azureedge.net/global-pictures/tournaments-sq-4/254645_w" width="70px">
+                    </a>
+
                     <a href="/" class="navbar-brand">Групи</a>
                     <a href="/rounds/1" class="navbar-brand">Първи кръг</a>
-                    <a href="/rounds/2" class="navbar-brand">Втори кръг</a>
-                    <a href="/rounds/3" class="navbar-brand">Трети кръг</a>
-                    <!--<a href="/" class="navbar-brand">Финален кръг</a>-->
+                    <!--<a href="/rounds/2" class="navbar-brand">Втори кръг</a>-->
+                    <!--<a href="/rounds/3" class="navbar-brand">Трети кръг</a>-->
+                    <!--<a href="/rounds/4" class="navbar-brand">Финален кръг</a>-->
 
                     {{#if user.admin}}
                         <a href="/game/create" class="navbar-brand">Нов</a>
+                        <a href="/groups/create" class="navbar-brand">Нова група</a>
                     {{/if}}
 
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

@@ -1,21 +1,40 @@
 <div class="container body-content span=8 offset=2">
     <div class="well">
-        <form class="form-horizontal" method="POST" action="/game/matchedit/{{match.id}}">
+        <form class="form-horizontal" method="POST" action="/groups/create">
             <fieldset>
-                <legend>Нов мач</legend>
+                <legend>Нова група</legend>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Първи отбор</label>
                     <div class="col-sm-4 ">
-                        <input type="text" class="form-control" id="team1" placeholder="отбор 1" name="team1" value="{{match.team1}}" required >
+                        <input type="text" class="form-control" placeholder="отбор 1" name="team1" value="{{bet.goal1}}" required >
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Втори отбор</label>
                     <div class="col-sm-4 ">
-                        <input type="text" class="form-control" id="team2" placeholder="отбор 2" name="team2" value="{{match.team2}}" required>
+                        <input type="text" class="form-control" placeholder="отбор 2" name="team2" value="{{bet.goal2}}" required >
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Трети отбор</label>
+                    <div class="col-sm-4 ">
+                        <input type="text" class="form-control" placeholder="отбор 3" name="team3" value="{{bet.goal2}}" required >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Четвърти отбор</label>
+                    <div class="col-sm-4 ">
+                        <input type="text" class="form-control" placeholder="отбор 4" name="team4" value="{{bet.goal2}}" required >
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-4 control-label" for="articleContent">Content</label>-->
+                    <!--<div class="col-sm-6">-->
+                        <!--<textarea class="form-control" id="articleContent" rows="5" name="content" required></textarea>-->
+                    <!--</div>-->
+                <!--</div>-->
+
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Ден</label>
                     <div class="col-sm-4 ">
@@ -43,23 +62,15 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Група</label>
                     <div class="col-sm-4 ">
-                        <input type="number" class="form-control" id="group" placeholder="група" name="group" value="{{match.group}}" required >
+                        <input type="text" class="form-control" id="group" placeholder="група" name="group" required >
                     </div>
                 </div>
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-4 control-label" for="articleContent">Content</label>-->
-                    <!--<div class="col-sm-6">-->
-                        <!--<textarea class="form-control" id="articleContent" rows="5" name="content" required></textarea>-->
-                    <!--</div>-->
-                <!--</div>-->
 
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <!--<button type="reset" class="btn btn-default">Отказ</button>-->
                         <a class="btn btn-default" href="{{href}}">Отказ</a>
                         <button type="submit" class="btn btn-primary">Добави</button>
-                        <!--<button type="submit" class="btn btn-danger" href="/game/matchdelete/{{match.id}}">Изтрий</button>-->
-                        <a class="btn btn-danger" href="/game/matchdelete/{{match.id}}">Изтрий</a>
                     </div>
                 </div>
             </fieldset>

@@ -11,6 +11,7 @@ let matchSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Bet'
     }],
+    isSeparator: {type: Boolean, default: false},
     date: {type: Date, required: true, default: Date.now()}
 });
 

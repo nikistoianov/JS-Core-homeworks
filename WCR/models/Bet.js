@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 let betSchema = mongoose.Schema({
     goal1: {type: Number},
     goal2: {type: Number},
-    // result: {type: String, required: true},
     group: {type: Number, required: true},
     match: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Match'},
     author: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},

@@ -2,6 +2,7 @@
 const Match = require('mongoose').model('Match');
 const Bet = require('mongoose').model('Bet');
 const User = require('mongoose').model('User');
+const Group = require('mongoose').model('Group');
 
 let dt = function (num) {
     return Number(num) < 10 ? '0' + num : num
@@ -35,105 +36,56 @@ let getClassName = function (points) {
     }
 }
 
-let getGroupResults = function (id, users, matches, bets) {
-    // console.log(users);
-    // Match.find({group: id}).then(matches => {
-    //     // console.log(matches);
-    //     Bet.find({group: id}).populate('match').populate('author').then(bets => {
-            let matchesArr = []
-            let resultsArr = []
-            let bonusArr = []
-            let roundArr = []
-            // let currentUser = req.isAuthenticated() ? req.user.userName : ''
-            // let admin = req.isAuthenticated() && req.user.admin ? true : false
-            // console.log('currentUser:' + currentUser);
-            for (let match of matches) {
-                if (match.group !== id) {continue}
-                let matchObj = {
-                    team1: match.team1,
-                    team2: match.team2,
-                    result: match.goal1 === undefined ? 'няма' : match.goal1 + ' : ' + match.goal2,
-                    date: dt(match.date.getDate())  + "." + dt(match.date.getMonth()+1) + " " + dt(match.date.getHours()) + ":" + dt(match.date.getMinutes()),
-                    bets: [],
-                    group: match.group
+let getGroupResults = function (id, users, matches, bets, totalArr) {
+    let resultsArr = []
+    let bonusArr = []
+    let roundArr = []
+    for (let match of matches.filter(x => x.group === id)) {
+        let i = 0
+        for (let user of users) {
+            let points = 0
+            for (let bet of bets) {
+                if (bet.author.userName === user.userName && bet.match.id === match.id) {
+                    points = calcPoints(match, bet)
+                    break
                 }
-                // if (admin) {
-                //     matchObj.href = match.id
-                // }
-                // console.log('Match date: ' + match.date);
-                // console.log('Now:        ' + new Date(Date.now()));
-                // let passed = match.date > new Date(Date.now())
-                // console.log(passed);
-
-                // let test = match.date - new Date(Date.now())
-                // console.log('Time diff: ' + test);
-
-                let i = 0
-                for (let user of users) {
-
-                    // let isCurrent = (user.userName === currentUser) && (match.date > new Date(Date.now()))
-                    let betObj = {}
-                    let foundBet = false
-                    for (let bet of bets) {
-                        if (bet.author.userName === user.userName && bet.match.id === match.id) {
-                            // console.log('Found bet:');
-                            // console.log(bet);
-                            betObj.result = bet.goal1 + ' : ' + bet.goal2
-                            betObj.href = 'bet/' + bet.id
-                            betObj.points = calcPoints(match, bet)
-                            betObj.className = getClassName(betObj.points)
-                            // ff.bets.push(betObj)
-                            foundBet = true
-                            break
-                        }
-                    }
-                    if (!foundBet) {
-                        betObj.href = 'newbet/' + match.id
-                        betObj.points = 0
-                        betObj.result = 'няма'
-                    }
-                    matchObj.bets.push(betObj)
-
-                    if (resultsArr[i] === undefined) {resultsArr[i] = 0}
-                    resultsArr[i] += Number(betObj.points)
-
-                    i++
-                }
-
-                // console.log('Match object: ');
-                // console.log(matchObj);
-
-                matchesArr.push(matchObj)
             }
+            if (resultsArr[i] === undefined) {resultsArr[i] = 0}
+            resultsArr[i] += Number(points)
 
+            i++
+        }
+    }
 
-            let max = Math.max(...resultsArr)
+    let max = Math.max(...resultsArr)
+    for (let i = 0; i < resultsArr.length; i++) {
+        bonusArr[i] = resultsArr[i] === max ? 5 : '';
+        roundArr[i] = resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
+        totalArr[i] = totalArr[i] === undefined ? roundArr[i] : totalArr[i] + roundArr[i]
+    }
 
-            // let max = resultsArr.math.max()
-            // console.log(max);
+    return totalArr
+}
 
-            for (let i = 0; i < resultsArr.length; i++) {
-                bonusArr[i] = resultsArr[i] === max ? 5 : '';
-                roundArr[i] = resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
-            }
-
-
-            // console.log('resultsArr: ');
-            // console.log(resultsArr);
-
-            // console.log('bonusArr:');
-            // console.log(bonusArr);
-            // console.log(roundArr);
-            // console.log(f);
-            // res.render('home/index', {users: users, matches: matchesArr, total: {round: resultsArr, bonus: bonusArr}});
-            return roundArr
-    //     })
-    //
-    // })
-
+let title = {
+    1: 'Първи кръг',
+    2: 'Втори кръг',
+    3: 'Трети кръг',
+    4: 'Четвърти кръг'
 }
 
 module.exports = {
+
+    groupGet: (req, res) => {
+        User.find({}).then(users => {
+            Group.find({}).then(group => {
+
+                res.render('home/group', {users: users})
+            })
+
+        })
+    },
+
     roundGet: (req, res) => {
         let id = Number(req.params.id)
 
@@ -152,17 +104,21 @@ module.exports = {
                     let currentUser = req.isAuthenticated() ? req.user.userName : ''
                     let admin = req.isAuthenticated() && req.user.admin ? true : false
                     // console.log('currentUser:' + currentUser);
-                    for (let match of matches) {
+                    for (let match of matches.filter(x => x.group === id)) {
 
                         let matchObj = {
                             team1: match.team1,
                             team2: match.team2,
                             result: match.goal1 === undefined ? 'няма' : match.goal1 + ' : ' + match.goal2,
                             date: dt(match.date.getDate())  + "." + dt(match.date.getMonth()+1) + " " + dt(match.date.getHours()) + ":" + dt(match.date.getMinutes()),
-                            bets: []
+                            bets: [],
+                            span: users.length + 3
                         }
                         if (admin) {
                             matchObj.href = match.id
+                        }
+                        if (match.isSeparator !== undefined && match.isSeparator) {
+                            matchObj.isSeparator = true
                         }
                         // console.log('Match date: ' + match.date);
                         // console.log('Now:        ' + new Date(Date.now()));
@@ -204,44 +160,33 @@ module.exports = {
                             i++
                         }
 
-                        console.log('Match object: ');
-                        console.log(matchObj);
+                        // console.log('Match object: ');
+                        // console.log(matchObj);
 
-                        if (match.group === id) {
-                            matchesArr.push(matchObj)
-                        } else {
-
-                        }
-
-
+                        matchesArr.push(matchObj)
                     }
 
 
                     let max = Math.max(...resultsArr)
 
-                    // let max = resultsArr.math.max()
-                    console.log(max);
-
+                    // calculates round points plus round bonus points
                     for (let i = 0; i < resultsArr.length; i++) {
                         bonusArr[i] = resultsArr[i] === max ? 5 : '';
                         roundArr[i] = resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
                     }
 
-
-                    // console.log('resultsArr: ');
-                    console.log(resultsArr);
-
-                    // console.log('bonusArr:');
-                    console.log(bonusArr);
-                    console.log(roundArr);
-
+                    // adds previous round points
                     for (let i = 1; i < id; i++) {
-                        let obj = getGroupResults(i, users, matches, bets);
-                        console.log('round ' + i);
-                        console.log(obj);
+                        roundArr = getGroupResults(i, users, matches, bets, roundArr);
                     }
-                    // console.log(f);
-                    res.render('home/index', {users: users, matches: matchesArr, total: {round: resultsArr, bonus: bonusArr}});
+
+                    res.render('home/index', {
+                        users: users,
+                        matches: matchesArr,
+                        total: {round: resultsArr, bonus: bonusArr, total: roundArr},
+                        title: title[id]
+                    })
+
                 })
 
             })
@@ -250,6 +195,41 @@ module.exports = {
         })
 
         // res.render('game/create')
+    },
+
+    newGroupGet: (req, res) => {
+        let date = new Date(Date.now())
+        let dt = {
+            day: date.getDate(),
+            month: date.getMonth() + 1,
+            hour: date.getHours(),
+            minute: date.getMinutes()
+        }
+        res.render('groups/create', {dt: dt})
+    },
+
+    newGroupPost: (req, res) => {
+        let args = req.body;
+        console.log(args);
+        let groupArgs = {
+            team1: args.team1,
+            team2: args.team2,
+            team3: args.team3,
+            team4: args.team4,
+            date: new Date(2018, Number(args.month) - 1, args.day, args.hour, args.minutes, 0, 0),
+            name: args.group
+        }
+
+        if(!req.isAuthenticated() || !req.user.admin) {
+            res.render('game/create', {error: 'Трябва да сте администратор за да добавяте мачове!'});
+            return
+        }
+
+        console.log(groupArgs);
+
+        Group.create(groupArgs).then(group => {
+            res.redirect('/');
+        })
     },
 
     newMatchGet: (req, res) => {
@@ -519,6 +499,17 @@ module.exports = {
             // res.redirect('/rounds/' + match.group);
             // res.render('game/matchresult', {match: match, href: backURL})
         })
+    },
+
+    createGroupBetGet: (req, res) => {
+        let backURL = req.header('Referer')
+        // console.log(backURL);
+        let id = req.params.id
+        // console.log(id);
+        // Match.findById(id).then(match => {
+            // console.log(bet);
+            res.render('game/groupbet', {href: backURL})
+        // })
     },
 
 }

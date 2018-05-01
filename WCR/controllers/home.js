@@ -7,6 +7,6 @@ const Bet = mongoose.model('Bet');
 
 module.exports = {
   index: (req, res) => {
-      res.redirect('rounds/1')
+      res.redirect('group')
   }
 };

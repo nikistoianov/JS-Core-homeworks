@@ -18,6 +18,8 @@ module.exports = (config) => {
     require('./../models/Article')
     require('./../models/Match')
     require('./../models/Bet')
+    require('./../models/Group')
+    require('./../models/GrBet')
 };
 
 

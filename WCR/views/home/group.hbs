@@ -9,13 +9,13 @@
             <table data-vertable="ver2">
 
                 <!--<caption class="btn-danger"><b class="text-hov-white" font-size="20px">{{title}}</b></caption>-->
-                <caption class="btn-danger tabletitle">{{title}}</caption>
+                <caption class="btn-danger tabletitle">Групи</caption>
 
                 <thead>
                 <tr class="row100 head">
                     <th class="column100 date" data-column="column1">дата</th>
                     <th class="column100 game" data-column="column1"></th>
-                    <th class="column100" data-column="column1">резултат</th>
+                    <th class="column100" data-column="column1">позиция</th>
                     {{#each users}}
                         <th class="column100" data-column="column2">{{this.name}}</th>
                     {{/each}}
@@ -55,16 +55,44 @@
                 {{/each}}
 
                 <tr class="row200">
-                    <td class="column100" colspan="7">Полуфинали</td>
+                    <td class="column100" colspan="7"><a href="/game/groupbet/1" class="btn resultbtn">Група А</a></td>
                 </tr>
 
-                <!--<tr class="row100">-->
-                    <!--<td class="column100 date" data-column="column1">17.06 15:40</td>-->
-                    <!--<td class="column100 game" data-column="column1">Камерун : Хърватия</td>-->
-                    <!--<td class="column100 result" data-column="column2">1 : 1</td>-->
-                    <!--<td class="column100" data-column="column3">2 : 0</td>-->
-                    <!--<td class="column100" data-column="column4"><button id="1">няма</button></td>-->
-                <!--</tr>-->
+                <tr class="row100">
+                    <td class="column100 date" data-column="column1">17.06 15:40</td>
+                    <td class="column100 game" data-column="column1">Русия</td>
+                    <td class="column100 result" data-column="column2">няма</td>
+                    <td class="column100" data-column="column3">няма</td>
+                    <td class="column100" data-column="column4"><button id="1">1 (0)</button></td>
+                </tr>
+
+                <tr class="row100">
+                    <td class="column100 date" data-column="column1"></td>
+                    <td class="column100 game" data-column="column1">Уругвай</td>
+                    <td class="column100 result" data-column="column2">няма</td>
+                    <td class="column100" data-column="column3">няма</td>
+                    <td class="column100" data-column="column4"><button id="1">2 (0)</button></td>
+                </tr>
+
+                <tr class="row100">
+                    <td class="column100 date" data-column="column1"></td>
+                    <td class="column100 game" data-column="column1">Египет</td>
+                    <td class="column100 result" data-column="column2">няма</td>
+                    <td class="column100" data-column="column3">няма</td>
+                    <td class="column100" data-column="column4"><button id="1">3 (0)</button></td>
+                </tr>
+
+                <tr class="row100">
+                    <td class="column100 date" data-column="column1"></td>
+                    <td class="column100 game" data-column="column1">Саудитска Арабия</td>
+                    <td class="column100 result" data-column="column2">няма</td>
+                    <td class="column100" data-column="column3">няма</td>
+                    <td class="column100" data-column="column4"><button id="1">4 (0)</button></td>
+                </tr>
+
+                <tr class="row200">
+                    <td class="column100" colspan="7">Група B</td>
+                </tr>
 
                 <tr class="row100 footer">
                     <th class="column100" colspan="3">точки за кръга</th>

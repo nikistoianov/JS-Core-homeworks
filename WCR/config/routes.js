@@ -7,6 +7,7 @@ module.exports = (app) => {
     app.get('/', homeController.index);
 
     app.get('/rounds/:id', gameController.roundGet);
+    app.get('/group', gameController.groupGet);
 
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
@@ -32,5 +33,10 @@ module.exports = (app) => {
     app.post('/game/matchedit/:id', gameController.matchEditPost);
 
     app.get('/game/matchdelete/:id', gameController.matchDeleteGet);
+
+    app.get('/game/groupbet/:id', gameController.createGroupBetGet);
+
+    app.get('/groups/create', gameController.newGroupGet);
+    app.post('/groups/create', gameController.newGroupPost);
 };
 
