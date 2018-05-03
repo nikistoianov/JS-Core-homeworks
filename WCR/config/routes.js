@@ -38,5 +38,14 @@ module.exports = (app) => {
 
     app.get('/groups/create', gameController.newGroupGet);
     app.post('/groups/create', gameController.newGroupPost);
+
+    app.get('/groups/edit/:id', gameController.groupEditGet);
+    app.post('/groups/edit/:id', gameController.groupEditPost);
+
+    app.get('/groups/newBet/:id', gameController.groupNewBetGet);
+    app.post('/groups/newBet/:id', gameController.groupNewBetPost);
+
+    app.get('/groups/editBet/:id', gameController.groupEditBetGet);
+    app.post('/groups/editBet/:id', gameController.groupEditBetPost);
 };
 

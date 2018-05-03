@@ -108,7 +108,14 @@ iframe {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+
     padding: 33px 30px;
+
+    /*position: relative;*/
+}
+
+.main-container {
+    padding-top: 0px;
 }
 
 .wrap-table100 {

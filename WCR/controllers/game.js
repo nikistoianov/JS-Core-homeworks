@@ -3,6 +3,7 @@ const Match = require('mongoose').model('Match');
 const Bet = require('mongoose').model('Bet');
 const User = require('mongoose').model('User');
 const Group = require('mongoose').model('Group');
+const GrBet = require('mongoose').model('GrBet');
 
 let dt = function (num) {
     return Number(num) < 10 ? '0' + num : num
@@ -24,6 +25,31 @@ let calcPoints = function (match, bet) {
     }
 }
 
+let calcGroupPoints = function (group, bet) {
+    let calcPoints = function (position, betValue) {
+        if (position == 1 && betValue == 1) {
+            return 4
+        } else if (position == 2 && betValue == 2) {
+            return 3
+        } else if (position == 3 && betValue == 3) {
+            return 2
+        } else if (position == 4 && betValue == 4) {
+            return 1
+        } else {
+            return 0
+        }
+    }
+
+    let result = {
+        position1: calcPoints(group.position1, bet.position1),
+        position2: calcPoints(group.position2, bet.position2),
+        position3: calcPoints(group.position3, bet.position3),
+        position4: calcPoints(group.position4, bet.position4)
+    }
+    // console.log(result);
+    return result
+}
+
 let getClassName = function (points) {
     if (points === '') {
         return ''
@@ -34,6 +60,16 @@ let getClassName = function (points) {
     } else {
         return ' nomatch'
     }
+}
+
+let getGroupClassName = function (points) {
+    let result = {
+        position1: points.position1 > 0 ? ' totalmatch' : ' nomatch',
+        position2: points.position2 > 0 ? ' totalmatch' : ' nomatch',
+        position3: points.position3 > 0 ? ' totalmatch' : ' nomatch',
+        position4: points.position4 > 0 ? ' totalmatch' : ' nomatch'
+    }
+    return result
 }
 
 let getGroupResults = function (id, users, matches, bets, totalArr) {
@@ -71,18 +107,205 @@ let title = {
     1: 'Първи кръг',
     2: 'Втори кръг',
     3: 'Трети кръг',
-    4: 'Четвърти кръг'
+    4: 'Финален кръг'
+}
+
+function getRound(req, id, users, matches, bets, prevPoints) {
+    let matchesArr = []
+    let resultsArr = []
+    let bonusArr = []
+    let roundArr = prevPoints
+    let currentUser = req.isAuthenticated() ? req.user.userName : ''
+    let admin = req.isAuthenticated() && req.user.admin ? true : false
+    // console.log('currentUser:' + currentUser);
+    for (let match of matches.filter(x => x.group === id)) {
+
+        let matchObj = {
+            team1: match.team1,
+            team2: match.team2,
+            result: match.goal1 === undefined ? 'няма' : match.goal1 + ' : ' + match.goal2,
+            date: dt(match.date.getDate())  + "." + dt(match.date.getMonth()+1) + " " + dt(match.date.getHours()) + ":" + dt(match.date.getMinutes()),
+            bets: [],
+            span: users.length + 3
+        }
+        if (admin) {
+            matchObj.href = match.id
+        }
+        if (match.isSeparator !== undefined && match.isSeparator) {
+            matchObj.isSeparator = true
+        }
+        // console.log('Match date: ' + match.date);
+        // console.log('Now:        ' + new Date(Date.now()));
+        // let passed = match.date > new Date(Date.now())
+        // console.log(passed);
+
+        // let test = match.date - new Date(Date.now())
+        // console.log('Time diff: ' + test);
+
+        let i = 0
+        for (let user of users) {
+
+            let isCurrent = (user.userName === currentUser) && (match.date > new Date(Date.now()))
+            let betObj = {current: isCurrent}
+            let foundBet = false
+            for (let bet of bets) {
+                if (bet.author.userName === user.userName && bet.match.id === match.id) {
+                    // console.log('Found bet:');
+                    // console.log(bet);
+                    betObj.result = bet.goal1 + ' : ' + bet.goal2
+                    betObj.href = 'bet/' + bet.id
+                    betObj.points = calcPoints(match, bet)
+                    betObj.className = getClassName(betObj.points)
+                    // ff.bets.push(betObj)
+                    foundBet = true
+                    break
+                }
+            }
+            if (!foundBet) {
+                betObj.href = 'newbet/' + match.id
+                betObj.points = 0
+                betObj.result = 'няма'
+            }
+            matchObj.bets.push(betObj)
+
+            if (resultsArr[i] === undefined) {resultsArr[i] = 0}
+            resultsArr[i] += Number(betObj.points)
+
+            i++
+        }
+
+        // console.log('Match object: ');
+        // console.log(matchObj);
+
+        matchesArr.push(matchObj)
+    }
+
+    let max = Math.max(...resultsArr)
+
+    // calculates round points plus round bonus points
+    for (let i = 0; i < resultsArr.length; i++) {
+        bonusArr[i] = resultsArr[i] === max ? 5 : '';
+        roundArr[i] += resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
+    }
+
+    // adds previous round points
+    for (let i = 1; i < id; i++) {
+        roundArr = getGroupResults(i, users, matches, bets, roundArr);
+    }
+
+    let result = {
+        users: users,
+        matches: matchesArr,
+        total: {round: resultsArr, bonus: bonusArr, total: roundArr},
+        title: title[id]
+    }
+
+    return result
+
+}
+
+function getGroups(req, users, groups, bets) {
+    let groupsArr = []
+    let resultsArr = []
+    let bonusArr = []
+    let roundArr = []
+
+    let currentUser = req.isAuthenticated() ? req.user.userName : ''
+    let admin = req.isAuthenticated() && req.user.admin ? true : false
+    for (let group of groups) {
+
+        let groupObj = {
+            activeBet: req.isAuthenticated() && (group.date > new Date(Date.now())),
+            team1: group.team1,
+            team2: group.team2,
+            team3: group.team3,
+            team4: group.team4,
+            position1: group.position1 === undefined ? 'няма' : group.position1,
+            position2: group.position2 === undefined ? 'няма' : group.position2,
+            position3: group.position3 === undefined ? 'няма' : group.position3,
+            position4: group.position4 === undefined ? 'няма' : group.position4,
+            date: dt(group.date.getDate())  + "." + dt(group.date.getMonth()+1) + " " + dt(group.date.getHours()) + ":" + dt(group.date.getMinutes()),
+            bets: [],
+            span: users.length + 3,
+            href: 'groups/newBet/' + group.id,
+            name: group.name
+        }
+        if (admin) {
+            groupObj.edithref = 'groups/edit/' + group.id
+        }
+
+        let i = 0
+        for (let user of users) {
+            let betObj = {
+                position1: 'няма',
+                position2: 'няма',
+                position3: 'няма',
+                position4: 'няма',
+                points: {position1: 0, position2: 0, position3: 0, position4: 0},
+                className: {position1: '', position2: '', position3: '', position4: ''}
+            }
+
+            for (let bet of bets) {
+                if (bet.author.userName === user.userName && bet.group.id === group.id) {
+                    betObj.position1 = bet.position1
+                    betObj.position2 = bet.position2
+                    betObj.position3 = bet.position3
+                    betObj.position4 = bet.position4
+                    if (user.userName === currentUser)
+                        groupObj.href = 'groups/editBet/' + bet.id
+                    betObj.points = calcGroupPoints(group, bet)
+                    betObj.className = getGroupClassName(betObj.points)
+                    // ff.bets.push(betObj)
+                    break
+                }
+            }
+
+            groupObj.bets.push(betObj)
+
+            if (resultsArr[i] === undefined) {resultsArr[i] = 0}
+            resultsArr[i] += betObj.points.position1 + betObj.points.position2 + betObj.points.position3 + betObj.points.position4
+
+            i++
+        }
+
+        // console.log('groupObj:')
+        // console.log(groupObj);
+
+        groupsArr.push(groupObj)
+    }
+
+    // console.log('groupsArr:')
+    // console.log(groupsArr)
+
+    let max = Math.max(...resultsArr)
+
+    // calculates round points plus round bonus points
+    for (let i = 0; i < resultsArr.length; i++) {
+        bonusArr[i] = resultsArr[i] === max ? 5 : '';
+        roundArr[i] = resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
+    }
+
+    // adds previous round points
+    // for (let i = 1; i < 4; i++) {
+    //     roundArr = getGroupResults(i, users, matches, mbets, roundArr);
+    // }
+
+    return {
+        users: users,
+        groups: groupsArr,
+        total: {round: resultsArr, bonus: bonusArr, total: roundArr}
+    }
 }
 
 module.exports = {
 
     groupGet: (req, res) => {
         User.find({}).then(users => {
-            Group.find({}).then(group => {
-
-                res.render('home/group', {users: users})
+            Group.find({}).then(groups => {
+                GrBet.find({}).populate('group').populate('author').then(bets => {
+                    res.render('home/group', getGroups(req, users, groups, bets))
+                })
             })
-
         })
     },
 
@@ -90,111 +313,20 @@ module.exports = {
         let id = Number(req.params.id)
 
         User.find({}).populate('bets').then(users => {
-            // console.log(users);
-
-            // Match.find({group: id}).then(matches => {
             Match.find({}).where('group').lt(id + 1).sort({date: 1}).then(matches => {
-            // Match.find({group: { $gt: 0, $lt: id + 1 }}).then(matches => {
-                // console.log(matches);
                 Bet.find({}).where('group').lt(id + 1).populate('match').populate('author').then(bets => {
-                    let matchesArr = []
-                    let resultsArr = []
-                    let bonusArr = []
-                    let roundArr = []
-                    let currentUser = req.isAuthenticated() ? req.user.userName : ''
-                    let admin = req.isAuthenticated() && req.user.admin ? true : false
-                    // console.log('currentUser:' + currentUser);
-                    for (let match of matches.filter(x => x.group === id)) {
-
-                        let matchObj = {
-                            team1: match.team1,
-                            team2: match.team2,
-                            result: match.goal1 === undefined ? 'няма' : match.goal1 + ' : ' + match.goal2,
-                            date: dt(match.date.getDate())  + "." + dt(match.date.getMonth()+1) + " " + dt(match.date.getHours()) + ":" + dt(match.date.getMinutes()),
-                            bets: [],
-                            span: users.length + 3
-                        }
-                        if (admin) {
-                            matchObj.href = match.id
-                        }
-                        if (match.isSeparator !== undefined && match.isSeparator) {
-                            matchObj.isSeparator = true
-                        }
-                        // console.log('Match date: ' + match.date);
-                        // console.log('Now:        ' + new Date(Date.now()));
-                        // let passed = match.date > new Date(Date.now())
-                        // console.log(passed);
-
-                        // let test = match.date - new Date(Date.now())
-                        // console.log('Time diff: ' + test);
-
-                        let i = 0
-                        for (let user of users) {
-
-                            let isCurrent = (user.userName === currentUser) && (match.date > new Date(Date.now()))
-                            let betObj = {current: isCurrent}
-                            let foundBet = false
-                            for (let bet of bets) {
-                                if (bet.author.userName === user.userName && bet.match.id === match.id) {
-                                    // console.log('Found bet:');
-                                    // console.log(bet);
-                                    betObj.result = bet.goal1 + ' : ' + bet.goal2
-                                    betObj.href = 'bet/' + bet.id
-                                    betObj.points = calcPoints(match, bet)
-                                    betObj.className = getClassName(betObj.points)
-                                    // ff.bets.push(betObj)
-                                    foundBet = true
-                                    break
-                                }
-                            }
-                            if (!foundBet) {
-                                betObj.href = 'newbet/' + match.id
-                                betObj.points = 0
-                                betObj.result = 'няма'
-                            }
-                            matchObj.bets.push(betObj)
-
-                            if (resultsArr[i] === undefined) {resultsArr[i] = 0}
-                            resultsArr[i] += Number(betObj.points)
-
-                            i++
-                        }
-
-                        // console.log('Match object: ');
-                        // console.log(matchObj);
-
-                        matchesArr.push(matchObj)
-                    }
-
-
-                    let max = Math.max(...resultsArr)
-
-                    // calculates round points plus round bonus points
-                    for (let i = 0; i < resultsArr.length; i++) {
-                        bonusArr[i] = resultsArr[i] === max ? 5 : '';
-                        roundArr[i] = resultsArr[i] === max ? resultsArr[i] + 5 : resultsArr[i];
-                    }
-
-                    // adds previous round points
-                    for (let i = 1; i < id; i++) {
-                        roundArr = getGroupResults(i, users, matches, bets, roundArr);
-                    }
-
-                    res.render('home/index', {
-                        users: users,
-                        matches: matchesArr,
-                        total: {round: resultsArr, bonus: bonusArr, total: roundArr},
-                        title: title[id]
+                    Group.find({}).then(groups => {
+                        GrBet.find({}).populate('group').populate('author').then(grbets => {
+                            let groupResult = getGroups(req, users, groups, grbets)
+                            let result = getRound(req, id, users, matches, bets, groupResult.total.total)
+                            res.render('home/index', result)
+                        })
                     })
 
                 })
-
             })
-
-
         })
 
-        // res.render('game/create')
     },
 
     newGroupGet: (req, res) => {
@@ -308,6 +440,7 @@ module.exports = {
             match.team1 = args.team1
             match.team2 = args.team2
             match.date = new Date(2018, Number(args.month) - 1, args.day, args.hour, args.minutes, 0, 0)
+            match.group = args.group
 
             // let matchArgs = {
             //     team1: args.team1,
@@ -510,6 +643,180 @@ module.exports = {
             // console.log(bet);
             res.render('game/groupbet', {href: backURL})
         // })
+    },
+
+    groupEditGet: (req, res) => {
+        let backURL = req.header('Referer')
+        let id = req.params.id
+        Group.findById(id).then(group => {
+            let date = group.date
+            let dt = {
+                day: date.getDate(),
+                month: date.getMonth() + 1,
+                hour: date.getHours(),
+                minute: date.getMinutes()
+            }
+            res.render('groups/edit', {group: group, href: backURL, dt: dt})
+        })
+    },
+
+    groupEditPost: (req, res) => {
+        let id = req.params.id
+        let args = req.body;
+        console.log(args);
+
+        let [p1, p2, p3, p4] = [args.position1, args.position2, args.position3, args.position4]
+
+        // console.log(id);
+        Group.findById(id).then(group => {
+
+            let errorMsg = '';
+            if (
+                (p1 !== '' && (p1 === p2 || p1 === p3 || p1 === p4)) ||
+                (p2 !== '' && (p2 === p3 || p2 === p4)) ||
+                (p3 !== '' && (p3 === p4))
+            ) {
+                errorMsg = 'Не може да има дублиращи позиции!'
+                // res.render('groups/edit', {group: group, dt: dt, error: 'Не може да има дублиращи позиции!'})
+            } else if(!req.isAuthenticated() || !req.user.admin) {
+                errorMsg = 'Трябва да сте администратор за да променяте група!'
+            }
+
+            if(errorMsg) {
+                let dt = {
+                    day: args.day,
+                    month: args.month,
+                    hour: args.hour,
+                    minute: args.minutes
+                }
+                res.render('groups/edit', {group: group, dt: dt, error: errorMsg})
+                // res.redirect('/', {error: errorMsg});
+                return;
+            }
+
+            group.position1 = (p1 !== '') ? p1 : undefined
+            group.position2 = (p2 !== '') ? p2 : undefined
+            group.position3 = (p3 !== '') ? p3 : undefined
+            group.position4 = (p4 !== '') ? p4 : undefined
+            group.date = new Date(2018, Number(args.month) - 1, args.day, args.hour, args.minutes, 0, 0)
+            group.name = args.group
+
+            group.save(err => {
+                if (err) {
+                    res.render('groups/edit', {error: err.message});
+                } else {
+                    res.redirect('/');
+                }
+            });
+        })
+    },
+
+    groupNewBetGet: (req, res) => {
+        let id = req.params.id
+        Group.findById(id).then(group => {
+            res.render('groups/newBet', {group: group})
+        })
+    },
+
+    groupNewBetPost: (req, res) => {
+        let id = req.params.id
+        let args = req.body;
+        Group.findById(id).then(group => {
+            let errorMsg = ''
+            let [p1, p2, p3, p4] = [args.position1, args.position2, args.position3, args.position4]
+            if(!req.isAuthenticated()) {
+                errorMsg = 'Трябва да сте влезнали в профила си!'
+            } else if(group.date < new Date(Date.now())) {
+                errorMsg = 'Времето за прогноза е изтекло!'
+            } else if (
+                (p1 !== '' && (p1 === p2 || p1 === p3 || p1 === p4)) ||
+                (p2 !== '' && (p2 === p3 || p2 === p4)) ||
+                (p3 !== '' && (p3 === p4))) {
+                errorMsg = 'Не може да има дублиращи позиции!'
+            }
+
+            if(errorMsg) {
+                res.render('groups/newBet', {error: errorMsg, group: group})
+                return
+            }
+
+            let betArgs = {
+                position1: p1,
+                position2: p2,
+                position3: p3,
+                position4: p4,
+                group: group.id,
+                author: req.user.id
+            }
+
+            GrBet.create(betArgs).then(bet => {
+                group.bets.push(bet.id);
+                group.save(err => {
+                    if (err) {
+                        res.render('groups/newBet', {error: errorMsg, group: group})
+                    } else {
+                        res.redirect('/');
+                        // req.user.bets.push(bet.id);
+                        // req.user.save(err => {
+                        //     if (err) {
+                        //         res.render('game/newbet', {error: err.message});
+                        //     } else {
+                        //         res.redirect('/rounds/' + bet.group);
+                        //     }
+                        // });
+                    }
+                });
+            })
+        })
+    },
+
+    groupEditBetGet: (req, res) => {
+        let id = req.params.id
+        GrBet.findById(id).populate('group').then(bet => {
+            res.render('groups/editBet', {bet: bet})
+        })
+    },
+
+    groupEditBetPost: (req, res) => {
+        let id = req.params.id
+        let args = req.body;
+        // console.log(args);
+
+        let [p1, p2, p3, p4] = [args.position1, args.position2, args.position3, args.position4]
+        GrBet.findById(id).populate('author').populate('group').then(bet => {
+            // console.log(bet);
+
+            let errorMsg = '';
+            if(!req.isAuthenticated()) {
+                errorMsg = 'Трябва да сте влезнали в профила си!';
+            } else if(req.user.userName !== bet.author.userName) {
+                errorMsg = 'Не сте автор на прогнозата!';
+            } else if(bet.group.date < new Date(Date.now())) {
+                errorMsg = 'Времето за прогноза е изтекло!';
+            } else if (
+                (p1 !== '' && (p1 === p2 || p1 === p3 || p1 === p4)) ||
+                (p2 !== '' && (p2 === p3 || p2 === p4)) ||
+                (p3 !== '' && (p3 === p4))) {
+                errorMsg = 'Не може да има дублиращи позиции!'
+            }
+
+            if(errorMsg) {
+                res.render('groups/editBet', {error: errorMsg, bet: bet});
+                return;
+            }
+
+            bet.position1 = Number(p1)
+            bet.position2 = Number(p2)
+            bet.position3 = Number(p3)
+            bet.position4 = Number(p4)
+            bet.save(err => {
+                if (err) {
+                    res.render('groups/editBet', {error: err.message, bet: bet});
+                } else {
+                    res.redirect('/');
+                }
+            });
+        })
     },
 
 }

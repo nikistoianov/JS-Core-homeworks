@@ -5,8 +5,24 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/table.css' />
     <link rel='stylesheet' href='/stylesheets/util.css' />
-    <script src="/public/javascripts/jquery-1.10.2.js"></script>
+    <!--<script src="/public/javascripts/jquery-1.10.2.js"></script>-->
     <script src="/public/javascripts/bootstrap.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+        function adjust_offset() {
+            let container = $('.container-fluid')
+            let off = $('.navbar').outerHeight(true) - 50
+            container.css('padding-top', off + 'px')
+//            console.log(off);
+//            console.log(container);
+//            $('body').css('padding-top', $('.navbar-default').outerHeight(true) + 'px' );
+        }
+
+        $(window).resize(adjust_offset);
+        $(document).ready(adjust_offset);
+    </script>
 </head>
 <body>
     <header>
@@ -19,9 +35,9 @@
 
                     <a href="/" class="navbar-brand">Групи</a>
                     <a href="/rounds/1" class="navbar-brand">Първи кръг</a>
-                    <!--<a href="/rounds/2" class="navbar-brand">Втори кръг</a>-->
-                    <!--<a href="/rounds/3" class="navbar-brand">Трети кръг</a>-->
-                    <!--<a href="/rounds/4" class="navbar-brand">Финален кръг</a>-->
+                    <a href="/rounds/2" class="navbar-brand">Втори кръг</a>
+                    <a href="/rounds/3" class="navbar-brand">Трети кръг</a>
+                    <a href="/rounds/4" class="navbar-brand">Финален кръг</a>
 
                     {{#if user.admin}}
                         <a href="/game/create" class="navbar-brand">Нов</a>
@@ -57,7 +73,9 @@
     {{#if error }}
         <h2>{{error}}</h2>
     {{/if}}
-    {{{body}}}
+    <div class="container-fluid" style="padding-top: 41px">
+        {{{body}}}
+    </div>
 </body>
 <footer>
     <!--<div class="container modal-footer">-->
