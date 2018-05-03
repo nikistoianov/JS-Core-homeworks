@@ -41,7 +41,11 @@
                             <td class="column100 game" data-column="column1">{{this.team1}}</td>
                             <td class="column100 result">{{this.position1}}</td>
                             {{#each this.bets}}
-                                <td class="column100{{this.className.position1}}">{{this.position1}} ({{this.points.position1}})</td>
+                                {{#if this.hidden}}
+                                    <td class="column100 nomatch">скрит</td>
+                                {{else}}
+                                    <td class="column100{{this.className.position1}}">{{this.position1}} ({{this.points.position1}})</td>
+                                {{/if}}
                             {{/each}}
                         </tr>
 
@@ -50,7 +54,11 @@
                             <td class="column100 game" data-column="column1">{{this.team2}}</td>
                             <td class="column100 result">{{this.position2}}</td>
                             {{#each this.bets}}
-                                <td class="column100{{this.className.position2}}">{{this.position2}} ({{this.points.position2}})</td>
+                                {{#if this.hidden}}
+                                    <td class="column100 nomatch">скрит</td>
+                                {{else}}
+                                    <td class="column100{{this.className.position2}}">{{this.position2}} ({{this.points.position2}})</td>
+                                {{/if}}
                             {{/each}}
                         </tr>
 
@@ -59,7 +67,11 @@
                             <td class="column100 game" data-column="column1">{{this.team3}}</td>
                             <td class="column100 result">{{this.position3}}</td>
                             {{#each this.bets}}
-                                <td class="column100{{this.className.position3}}">{{this.position3}} ({{this.points.position3}})</td>
+                                {{#if this.hidden}}
+                                    <td class="column100 nomatch">скрит</td>
+                                {{else}}
+                                    <td class="column100{{this.className.position3}}">{{this.position3}} ({{this.points.position3}})</td>
+                                {{/if}}
                             {{/each}}
                         </tr>
 
@@ -68,47 +80,67 @@
                             <td class="column100 game" data-column="column1">{{this.team4}}</td>
                             <td class="column100 result">{{this.position4}}</td>
                             {{#each this.bets}}
-                                <td class="column100{{this.className.position4}}">{{this.position4}} ({{this.points.position4}})</td>
+                                {{#if this.hidden}}
+                                    <td class="column100 nomatch">скрит</td>
+                                {{else}}
+                                    <td class="column100{{this.className.position4}}">{{this.position4}} ({{this.points.position4}})</td>
+                                {{/if}}
                             {{/each}}
                         </tr>
 
                     {{/each}}
 
                     <tr class="row200">
-                        <td class="column100" colspan="7">Група А</td>
+                        <td class="column100" colspan="7">Прогноза за световен шампион</td>
                     </tr>
 
                     <tr class="row100">
                         <td class="column100 date" data-column="column1">17.06 15:40</td>
-                        <td class="column100 game" data-column="column1">Русия</td>
+                        <td class="column100 game" data-column="column1">
+                            <!--<div class="select">-->
+                                <!--<select class="column100 date" name="search_categories" id="search_categories">-->
+                                    <!--<option value="1" selected="selected">Happy</option>-->
+                                    <!--<option value="2">Great</option>-->
+                                    <!--<option value="3">Nice Solution</option>-->
+                                    <!--<option value="4">Awesome</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        </td>
                         <td class="column100 result" data-column="column2">няма</td>
-                        <td class="column100" data-column="column3">няма</td>
-                        <td class="column100" data-column="column4"><button id="1">1 (0)</button></td>
+                        <!--<td class="column100" data-column="column3">няма</td>-->
+                        <!--<td class="column100" data-column="column4"><button id="1">1 (0)</button></td>-->
+                        {{#each champs}}
+                            {{#if this.hidden}}
+                                <td class="column100 nomatch">скрит</td>
+                            {{else}}
+                                <td class="column100{{this.className}}">{{this.champion}} ({{this.points}})</td>
+                            {{/if}}
+                        {{/each}}
                     </tr>
 
-                    <tr class="row100">
-                        <td class="column100 date" data-column="column1"></td>
-                        <td class="column100 game" data-column="column1">Уругвай</td>
-                        <td class="column100 result" data-column="column2">няма</td>
-                        <td class="column100" data-column="column3">няма</td>
-                        <td class="column100" data-column="column4"><button id="1">2 (0)</button></td>
-                    </tr>
+                    <!--<tr class="row100">-->
+                        <!--<td class="column100 date" data-column="column1"></td>-->
+                        <!--<td class="column100 game" data-column="column1">Уругвай</td>-->
+                        <!--<td class="column100 result" data-column="column2">няма</td>-->
+                        <!--<td class="column100" data-column="column3">няма</td>-->
+                        <!--<td class="column100" data-column="column4"><button id="1">2 (0)</button></td>-->
+                    <!--</tr>-->
 
-                    <tr class="row100">
-                        <td class="column100 date" data-column="column1"></td>
-                        <td class="column100 game" data-column="column1">Египет</td>
-                        <td class="column100 result" data-column="column2">няма</td>
-                        <td class="column100" data-column="column3">няма</td>
-                        <td class="column100" data-column="column4"><button id="1">3 (0)</button></td>
-                    </tr>
+                    <!--<tr class="row100">-->
+                        <!--<td class="column100 date" data-column="column1"></td>-->
+                        <!--<td class="column100 game" data-column="column1">Египет</td>-->
+                        <!--<td class="column100 result" data-column="column2">няма</td>-->
+                        <!--<td class="column100" data-column="column3">няма</td>-->
+                        <!--<td class="column100" data-column="column4"><button id="1">3 (0)</button></td>-->
+                    <!--</tr>-->
 
-                    <tr class="row100">
-                        <td class="column100 date" data-column="column1"></td>
-                        <td class="column100 game" data-column="column1">Саудитска Арабия</td>
-                        <td class="column100 result" data-column="column2">няма</td>
-                        <td class="column100" data-column="column3">няма</td>
-                        <td class="column100" data-column="column4"><button id="1">4 (0)</button></td>
-                    </tr>
+                    <!--<tr class="row100">-->
+                        <!--<td class="column100 date" data-column="column1"></td>-->
+                        <!--<td class="column100 game" data-column="column1">Саудитска Арабия</td>-->
+                        <!--<td class="column100 result" data-column="column2">няма</td>-->
+                        <!--<td class="column100" data-column="column3">няма</td>-->
+                        <!--<td class="column100" data-column="column4"><button id="1">4 (0)</button></td>-->
+                    <!--</tr>-->
 
                     <tr class="row100 footer">
                         <th class="column100" colspan="3">точки за кръга</th>

@@ -4,6 +4,7 @@ const Bet = require('mongoose').model('Bet');
 const User = require('mongoose').model('User');
 const Group = require('mongoose').model('Group');
 const GrBet = require('mongoose').model('GrBet');
+const ChampBet = require('mongoose').model('ChampBet');
 
 let dt = function (num) {
     return Number(num) < 10 ? '0' + num : num
@@ -204,7 +205,7 @@ function getRound(req, id, users, matches, bets, prevPoints) {
 
 }
 
-function getGroups(req, users, groups, bets) {
+function getGroups(req, users, groups, bets, champbets) {
     let groupsArr = []
     let resultsArr = []
     let bonusArr = []
@@ -253,6 +254,8 @@ function getGroups(req, users, groups, bets) {
                     betObj.position4 = bet.position4
                     if (user.userName === currentUser)
                         groupObj.href = 'groups/editBet/' + bet.id
+                    else if (group.date > new Date(Date.now()))
+                        betObj.hidden = true
                     betObj.points = calcGroupPoints(group, bet)
                     betObj.className = getGroupClassName(betObj.points)
                     // ff.bets.push(betObj)
@@ -274,6 +277,20 @@ function getGroups(req, users, groups, bets) {
         groupsArr.push(groupObj)
     }
 
+    let champArr = []
+    for (let user of users) {
+        let champObj = {
+            champion: 'няма'
+        }
+        for (let champbet of champbets) {
+            if (champbet.author.userName === user.userName) {
+                champObj.champion = champbet.champion
+                break
+            }
+        }
+        champArr.push(champObj)
+    }
+
     // console.log('groupsArr:')
     // console.log(groupsArr)
 
@@ -293,6 +310,7 @@ function getGroups(req, users, groups, bets) {
     return {
         users: users,
         groups: groupsArr,
+        champs: champArr,
         total: {round: resultsArr, bonus: bonusArr, total: roundArr}
     }
 }
@@ -303,7 +321,11 @@ module.exports = {
         User.find({}).then(users => {
             Group.find({}).then(groups => {
                 GrBet.find({}).populate('group').populate('author').then(bets => {
-                    res.render('home/group', getGroups(req, users, groups, bets))
+                    ChampBet.find({}).populate('author').then(champbets => {
+                        let result = getGroups(req, users, groups, bets, champbets)
+                        console.log(result);
+                        res.render('home/group', result)
+                    })
                 })
             })
         })

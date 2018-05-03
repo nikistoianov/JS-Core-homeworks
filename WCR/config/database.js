@@ -20,6 +20,7 @@ module.exports = (config) => {
     require('./../models/Bet')
     require('./../models/Group')
     require('./../models/GrBet')
+    require('./../models/ChampBet')
 };
 
 

@@ -13,9 +13,9 @@ module.exports = {
         User.findOne({userName: registerArgs.userName}).then(user => {
             let errorMsg = '';
             if (user) {
-                errorMsg = 'User with the same username exists!';
+                errorMsg = 'Съществуващ потребител!';
             } else if (registerArgs.password !== registerArgs.repeatedPassword) {
-                errorMsg = 'Passwords do not match!'
+                errorMsg = 'Грешно потвърждение на парола!'
             }
 
             if (errorMsg) {
