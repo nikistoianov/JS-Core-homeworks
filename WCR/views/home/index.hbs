@@ -3,7 +3,7 @@
 
     <div class="wrap-table100">
 
-        <div class="table100 ver6 m-b-110">
+        <div class="table100 ver6">
             <table data-vertable="ver2">
 
                 <!--<caption class="btn-danger"><b class="text-hov-white" font-size="20px">{{title}}</b></caption>-->
@@ -40,10 +40,14 @@
                                 {{/if}}
 
                                 {{#each this.bets}}
-                                    {{#if this.current}}
-                                        <td class="column100" data-column="column2"><a href="/{{this.href}}" id="1" class="btn resultbtn">{{this.result}} ({{this.points}})</a></td>
+                                    {{#if this.hidden}}
+                                        <td class="column100 nomatch">скрит</td>
                                     {{else}}
-                                        <td class="column100{{this.className}}" data-column="column2">{{this.result}} ({{this.points}})</td>
+                                        {{#if this.current}}
+                                            <td class="column100" data-column="column2"><a href="/{{this.href}}" id="1" class="btn resultbtn">{{this.result}} ({{this.points}})</a></td>
+                                        {{else}}
+                                            <td class="column100{{this.className}}" data-column="column2">{{this.result}} ({{this.points}})</td>
+                                        {{/if}}
                                     {{/if}}
                                 {{/each}}
 
@@ -66,6 +70,13 @@
                         <th class="column100" colspan="3">бонус точки</th>
                         {{#each total.bonus}}
                             <th class="column100 match">{{this}}</th>
+                        {{/each}}
+                    </tr>
+
+                    <tr class="row100 footer-user">
+                        <th class="column100" colspan="3">участник</th>
+                        {{#each users}}
+                            <th class="column100">{{this.name}}</th>
                         {{/each}}
                     </tr>
 

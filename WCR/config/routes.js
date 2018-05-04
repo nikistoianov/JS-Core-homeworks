@@ -47,5 +47,11 @@ module.exports = (app) => {
 
     app.get('/groups/editBet/:id', gameController.groupEditBetGet);
     app.post('/groups/editBet/:id', gameController.groupEditBetPost);
+
+    app.get('/groups/champBet', gameController.champNewBetGet);
+    app.post('/groups/champBet', gameController.champNewBetPost);
+
+    app.get('/groups/champBet/:id', gameController.champEditBetGet);
+    app.post('/groups/champBet/:id', gameController.champEditBetPost);
 };
 

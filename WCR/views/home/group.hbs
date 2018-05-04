@@ -1,16 +1,14 @@
-<!--<div class="wrap-table100">-->
+<div class="container-table100 main-container">
 
-    <div class="container-table100 main-container">
+    <div class="wrap-table100">
 
-        <div class="wrap-table100">
+        <div class="table100 ver6">
 
-            <div class="table100 ver6 m-b-110">
-                <table data-vertable="ver2">
+            <table data-vertable="ver2">
 
-                    <!--<caption class="btn-danger"><b class="text-hov-white" font-size="20px">{{title}}</b></caption>-->
-                    <caption class="btn-danger tabletitle">Групи</caption>
+                <caption class="btn-danger tabletitle">Групи</caption>
 
-                    <thead>
+                <thead>
                     <tr class="row100 head">
                         <th class="column100 date" data-column="column1">дата</th>
                         <th class="column100 game" data-column="column1"></th>
@@ -19,9 +17,9 @@
                             <th class="column100" data-column="column2">{{this.name}}</th>
                         {{/each}}
                     </tr>
-                    </thead>
+                </thead>
 
-                    <tbody>
+                <tbody>
 
                     {{#each groups}}
                         <tr class="row200">
@@ -90,65 +88,11 @@
 
                     {{/each}}
 
-                    <tr class="row200">
-                        <td class="column100" colspan="7">Прогноза за световен шампион</td>
-                    </tr>
-
-                    <tr class="row100">
-                        <td class="column100 date" data-column="column1">17.06 15:40</td>
-                        <td class="column100 game" data-column="column1">
-                            <!--<div class="select">-->
-                                <!--<select class="column100 date" name="search_categories" id="search_categories">-->
-                                    <!--<option value="1" selected="selected">Happy</option>-->
-                                    <!--<option value="2">Great</option>-->
-                                    <!--<option value="3">Nice Solution</option>-->
-                                    <!--<option value="4">Awesome</option>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                        </td>
-                        <td class="column100 result" data-column="column2">няма</td>
-                        <!--<td class="column100" data-column="column3">няма</td>-->
-                        <!--<td class="column100" data-column="column4"><button id="1">1 (0)</button></td>-->
-                        {{#each champs}}
-                            {{#if this.hidden}}
-                                <td class="column100 nomatch">скрит</td>
-                            {{else}}
-                                <td class="column100{{this.className}}">{{this.champion}} ({{this.points}})</td>
-                            {{/if}}
-                        {{/each}}
-                    </tr>
-
-                    <!--<tr class="row100">-->
-                        <!--<td class="column100 date" data-column="column1"></td>-->
-                        <!--<td class="column100 game" data-column="column1">Уругвай</td>-->
-                        <!--<td class="column100 result" data-column="column2">няма</td>-->
-                        <!--<td class="column100" data-column="column3">няма</td>-->
-                        <!--<td class="column100" data-column="column4"><button id="1">2 (0)</button></td>-->
-                    <!--</tr>-->
-
-                    <!--<tr class="row100">-->
-                        <!--<td class="column100 date" data-column="column1"></td>-->
-                        <!--<td class="column100 game" data-column="column1">Египет</td>-->
-                        <!--<td class="column100 result" data-column="column2">няма</td>-->
-                        <!--<td class="column100" data-column="column3">няма</td>-->
-                        <!--<td class="column100" data-column="column4"><button id="1">3 (0)</button></td>-->
-                    <!--</tr>-->
-
-                    <!--<tr class="row100">-->
-                        <!--<td class="column100 date" data-column="column1"></td>-->
-                        <!--<td class="column100 game" data-column="column1">Саудитска Арабия</td>-->
-                        <!--<td class="column100 result" data-column="column2">няма</td>-->
-                        <!--<td class="column100" data-column="column3">няма</td>-->
-                        <!--<td class="column100" data-column="column4"><button id="1">4 (0)</button></td>-->
-                    <!--</tr>-->
-
                     <tr class="row100 footer">
                         <th class="column100" colspan="3">точки за кръга</th>
                         {{#each total.round}}
                             <th class="column100 match">{{this}}</th>
                         {{/each}}
-                        <!--<th class="column100 match">75</th>-->
-                        <!--<th class="column100 match">31</th>-->
                     </tr>
 
                     <tr class="row100 footer">
@@ -156,8 +100,34 @@
                         {{#each total.bonus}}
                             <th class="column100 match">{{this}}</th>
                         {{/each}}
-                        <!--<th class="column100 match"></th>-->
-                        <!--<th class="column100 match"></th>-->
+                    </tr>
+
+                    <tr class="row200">
+                        <td class="column100" colspan="7">Прогноза за световен шампион</td>
+                    </tr>
+
+                    <tr class="row100">
+                        <td class="column100 date" data-column="column1">{{champRez.date}}</td>
+                        <td class="column100 game" data-column="column1"></td>
+                        <td class="column100 result" data-column="column2">{{champRez.champion}}</td>
+                        {{#each champs}}
+                            {{#if this.hidden}}
+                                <td class="column100 nomatch">скрит</td>
+                            {{else}}
+                                {{#if this.current}}
+                                    <td class="column100{{this.className}}"><a href="/{{this.href}}" class="btn resultbtn">{{this.champion}} ({{this.points}})</a></td>
+                                {{else}}
+                                    <td class="column100{{this.className}}">{{this.champion}} ({{this.points}})</td>
+                                {{/if}}
+                            {{/if}}
+                        {{/each}}
+                    </tr>
+
+                    <tr class="row100 footer-user">
+                        <th class="column100" colspan="3">участник</th>
+                        {{#each users}}
+                            <th class="column100">{{this.name}}</th>
+                        {{/each}}
                     </tr>
 
                     <tr class="row100 footer">
@@ -165,16 +135,15 @@
                         {{#each total.total}}
                             <th class="column100 totalmatch">{{this}}</th>
                         {{/each}}
-                        <!--<th class="column100 totalmatch">общо точки</th>-->
-                        <!--<th></th>-->
-                        <!--<th class="column100 totalmatch">125</th>-->
-                        <!--<th class="column100 totalmatch">85</th>-->
                     </tr>
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+
+            </table>
 
         </div>
+
     </div>
-<!--</div>-->
+
+</div>
+

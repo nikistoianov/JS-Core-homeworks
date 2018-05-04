@@ -40,8 +40,8 @@
                     <a href="/rounds/4" class="navbar-brand">Финален кръг</a>
 
                     {{#if user.admin}}
-                        <a href="/game/create" class="navbar-brand">Нов</a>
-                        <a href="/groups/create" class="navbar-brand">Нова група</a>
+                        <a href="/game/create" class="navbar-btn">мач</a>
+                        <a href="/groups/create" class="navbar-btn">група</a>
                     {{/if}}
 
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -70,16 +70,17 @@
             </div>
         </div>
     </header>
-    {{#if error }}
-        <h2>{{error}}</h2>
-    {{/if}}
+
     <div class="container-fluid" style="padding-top: 41px">
+        {{#if error }}
+            <h2>{{error}}</h2>
+        {{/if}}
         {{{body}}}
     </div>
 </body>
 <footer>
-    <!--<div class="container modal-footer">-->
-        <!--<p>&copy; 2017 - Software University Foundation</p>-->
-    <!--</div>-->
+    <div class="container modal-footer">
+        <p>&copy; 2018 - Nikolay Stoyanov</p>
+    </div>
 </footer>
 </html>
